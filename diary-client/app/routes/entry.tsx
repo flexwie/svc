@@ -33,9 +33,15 @@ export default function EntryIndex() {
     <>
       <div className="my-6">
         <div className="flex justify-around items-center">
-          <ArrowLeftIcon className="w-8 h-8" onClick={() => handleDate(-1)} />
+          <ArrowLeftIcon
+            className="w-8 h-8 cursor-pointer"
+            onClick={() => handleDate(-1)}
+          />
           <span className="font-semibold text-lg">{date}</span>
-          <ArrowRightIcon className="w-8 h-8" onClick={() => handleDate(1)} />
+          <ArrowRightIcon
+            className="w-8 h-8 cursor-pointer"
+            onClick={() => handleDate(1)}
+          />
         </div>
       </div>
       <div className="mx-4">

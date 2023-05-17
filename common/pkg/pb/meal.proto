@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package meal;
+
+option go_package = "./pkg/product/pb";
+
+service MealService {
+    rpc CreateMeal(CreateMealRequest) returns (CreateMealResponse) {}
+    rpc FindOne(FindOneRequest) returns (FindOneResponse) {}
+}
+
+message Meal {
+    string id = 1;
+    string name = 2;
+    Time duration = 3;
+}
+
+enum Time {
+    SHORT = 0;
+    MEDIUM = 1;
+    LONG = 2;
+}
+
+enum Status {
+    SUCCESS = 0;
+    ERROR = 1;
+}
+
+// create
+message CreateMealRequest {
+    string name = 1;
+    Time duration = 2;
+}
+
+message CreateMealResponse {
+    Status status = 1;
+    string error = 2;
+    Meal data = 3;
+}
+
+// find one
+message FindOneRequest {
+    string id = 1;
+}
+
+message FindOneResponse {
+    Status status = 1;
+    string error = 2;
+    Meal data = 3;
+}
+
+// find by time

@@ -11,17 +11,15 @@ import {
   useLoaderData,
   useNavigation,
   useParams,
-  useTransition,
 } from "@remix-run/react";
 import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
-import { prisma } from "~/services/prisma.server";
-import { Editor, getContentLength } from "~/components/editor";
-import { authenticator } from "~/services/auth.server";
+import { prisma } from "../../services/prisma.server";
+import { Editor, getContentLength } from "../../components/editor";
+import { authenticator } from "../../services/auth.server";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  });
+  const user = await authenticator.isAuthenticated(request);
+  if (!user) return redirect("/");
 
   if (!params.id) {
     // no date found; this should not happen but better safe than sorry
@@ -67,6 +65,7 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: `Diary` }];
 };
 
+/* istanbul ignore next */
 export default function Entry() {
   const data = useLoaderData<typeof loader>();
   const { id } = useParams();
@@ -108,7 +107,7 @@ export default function Entry() {
           {editorOpen && (
             <div className="flex justify-between items-center mt-10">
               <button
-                className="border-black font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center hover:shadow-md border-2"
+                className="cursor-pointer border-black font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center hover:shadow-md border-2"
                 type="submit"
                 disabled={
                   transition.state == "submitting" || contentLength == 0
