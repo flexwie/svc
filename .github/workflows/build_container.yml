@@ -30,7 +30,7 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=semver,patter={{major}}
+            type=semver,pattern={{major}}
             type=sha
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -50,7 +50,7 @@ jobs:
           build-args: SVC=${{ matrix.svc }}
           file: ./go.Dockerfile
           tags: ghcr.io/flexwie/svc/${{ matrix.svc }}:dev
-          platform: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
