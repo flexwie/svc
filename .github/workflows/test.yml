@@ -11,11 +11,19 @@ on:
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
-        svc: [ "api-gateway", "auth-svc", "meal-svc", "diary-client" ]
+        svc:
+          [
+            "api-gateway",
+            "auth-svc",
+            "meal-svc",
+            "diary-client",
+            "common"
+          ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Test
-        run: pushd ${{matrix.svc}} && make test
+        run: cd ${{matrix.svc}} && make test

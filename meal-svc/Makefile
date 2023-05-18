@@ -1,5 +1,5 @@
 deps:
-	go mod install
+	go mod download
 
 test: deps
 	go test ./...
