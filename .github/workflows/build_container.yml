@@ -13,18 +13,35 @@ on:
 jobs:
   docker:
     strategy:
+      fail-fast: false
       matrix:
         svc: [ "api-gateway", "auth-svc", "meal-svc" ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: magnetikonline/action-golang-cache@v4
+        with:
+          go-version: "^1.19"
+          cache-key-suffix: ${{matrix.svc}}
+      - name: Install protoc
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: protobuf-compiler
+          version: latest
+      - name: Install go proto plugins
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+          export PATH="$PATH:$(go env GOPATH)/bin"
+      - name: Create proto files
+        run: cd common && make proto && cd ..
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/flexwie/svc
+            ghcr.io/flexwie/svc/${{matrix.svc}}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -49,7 +66,8 @@ jobs:
           context: .
           build-args: SVC=${{ matrix.svc }}
           file: ./go.Dockerfile
-          tags: ghcr.io/flexwie/svc/${{ matrix.svc }}:dev
+          tags: ${{steps.meta.outputs.tags}}
+          labels: ${{steps.meta.outputs.labels}}
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           cache-from: type=gha

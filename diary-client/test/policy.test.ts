@@ -1,7 +1,6 @@
 import { authenticated } from "~/services/policy.server";
 import { commitSession, getSession } from "~/services/session.server";
-import { Request } from "@remix-run/node";
-import { User } from "@prisma/client";
+import { Request, Headers } from "@remix-run/node";
 
 describe("authenticated policy", () => {
   it("should redirect unauthenticated", async () => {

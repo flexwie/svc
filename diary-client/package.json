@@ -2,6 +2,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
+    "db:push": "echo $DATABASE_URL && prisma db push",
     "build": "run-s build:*",
     "dev": "run-p dev:*",
     "start": "remix-serve build",

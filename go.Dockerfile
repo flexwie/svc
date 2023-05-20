@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . .
 RUN cd $SVC && go mod download && cd ..
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /svc $SVC/cmd/main.go
+RUN GOOS=linux go build -o /svc $SVC/cmd/main.go
 
 FROM alpine
 
