@@ -27,7 +27,7 @@ func main() {
 func NewConfig(lc fx.Lifecycle, logger *log.Logger) config.Config {
 	c, err := config.LoadConfig()
 	if err != nil {
-		log.Fatalf("failed at config", err)
+		log.Fatal("failed at config", "err", err)
 	}
 
 	return c
@@ -36,7 +36,7 @@ func NewConfig(lc fx.Lifecycle, logger *log.Logger) config.Config {
 func NewGrpcServer(lc fx.Lifecycle, c config.Config, logger *log.Logger) *grpc.Server {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", c.Port))
 	if err != nil {
-		log.Fatalf("failed to listen at port", err)
+		log.Fatal("failed to listen at port", "err", err)
 	}
 
 	logger.SetPrefix("grpc")

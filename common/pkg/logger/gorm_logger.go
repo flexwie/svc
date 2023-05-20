@@ -34,15 +34,15 @@ func (g *GormLogger) LogMode(ll glogger.LogLevel) glogger.Interface {
 }
 
 func (g *GormLogger) Info(ctx context.Context, s string, opts ...interface{}) {
-	g.Logger.Infof(s, opts)
+	g.Logger.Infof(s, opts...)
 }
 
 func (g *GormLogger) Warn(ctx context.Context, s string, opts ...interface{}) {
-	g.Logger.Warnf(s, opts)
+	g.Logger.Warnf(s, opts...)
 }
 
 func (g *GormLogger) Error(ctx context.Context, s string, opts ...interface{}) {
-	g.Logger.Errorf(s, opts)
+	g.Logger.Errorf(s, opts...)
 }
 
 func (g *GormLogger) Trace(ctx context.Context, begin time.Time, fc func() (sql string, rowsAffected int64), err error) {

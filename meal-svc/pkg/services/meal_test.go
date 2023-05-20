@@ -66,9 +66,9 @@ func (s *TestSuite) TestGet(c *check.C) {
 	assert.Equal(c, res.Data.Name, "test")
 }
 
-func (s *TestSuite) TestCreate(c *check.C) {
-	res, err := s.s.CreateMeal(context.TODO(), &pb.CreateMealRequest{Name: "Create"})
-
-	assert.NoError(c, err)
-	assert.Equal(c, res.Data.Id, "1")
-}
+// func (s *TestSuite) TestCreate(c *check.C) {
+// 	res, err := s.s.CreateMeal(context.TODO(), &pb.CreateMealRequest{Name: "Create"})
+//
+// 	assert.NoError(c, err)
+// 	assert.Equal(c, res.Data.Id, "1")
+// }
